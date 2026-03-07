@@ -2,22 +2,23 @@
 
 import { useEffect, useRef, useState } from "react";
 import { MapPin, Phone, Clock, Navigation, MessageCircle } from "lucide-react";
+import { restaurant } from "@/config/restaurant";
 
 const info = [
   {
     icon: MapPin,
     title: "Address",
-    lines: ["Al Zahiyah, Tourist Club Area", "Electra Road, Behind KFC Building", "Abu Dhabi, UAE"],
+    lines: [restaurant.address.line1, restaurant.address.line2, restaurant.address.city],
   },
   {
     icon: Phone,
     title: "Phone",
-    lines: ["02 448 4041", "055 189 9500 (WhatsApp)"],
+    lines: [restaurant.phoneDisplay, `${restaurant.whatsappDisplay} (WhatsApp)`],
   },
   {
     icon: Clock,
     title: "Hours",
-    lines: ["Open 24 Hours", "7 Days a Week", "Including Holidays"],
+    lines: restaurant.hoursLines,
   },
 ];
 
@@ -47,7 +48,7 @@ export default function Location() {
             Our Location
           </h2>
           <p className="mt-5 text-brand-cream/55 max-w-xl mx-auto text-sm">
-            Conveniently located in the heart of Abu Dhabi — easy to find, impossible to forget.
+            {restaurant.locationSubtext}
           </p>
         </div>
 
@@ -72,7 +73,7 @@ export default function Location() {
             {/* Action buttons */}
             <div className="flex gap-3 pt-2">
               <a
-                href="https://maps.app.goo.gl/KLdXXg7ZqBgRAvnT7"
+                href={restaurant.mapsLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 py-3 bg-brand-gold hover:bg-brand-gold-light text-brand-dark font-semibold rounded-full text-sm transition-all hover:scale-105"
@@ -80,7 +81,7 @@ export default function Location() {
                 <Navigation size={14} /> Get Directions
               </a>
               <a
-                href="https://wa.me/971551899500?text=Hi%20Curry%20Palace!%20I%20want%20to%20order."
+                href={`https://wa.me/${restaurant.whatsapp}?text=${restaurant.whatsappLocationMsg}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#25d366] hover:bg-[#22c55e] text-white font-semibold rounded-full text-sm transition-all hover:scale-105"
@@ -94,14 +95,14 @@ export default function Location() {
           <div className={`lg:col-span-3 transition-all duration-700 delay-200 ${vis ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"}`}>
             <div className="relative h-[420px] rounded-2xl overflow-hidden border border-brand-gold/20 shadow-gold">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3631.5!2d54.3670!3d24.4960!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5e673a21e185f1%3A0x1!2sCurry%20Palace%20Restaurant%2C%20Al%20Zahiyah%2C%20Abu%20Dhabi!5e0!3m2!1sen!2sae!4v1700000000000!5m2!1sen!2sae"
+                src={restaurant.mapsEmbed}
                 width="100%"
                 height="100%"
                 style={{ border: 0, filter: "invert(90%) hue-rotate(180deg) brightness(0.85)" }}
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Curry Palace Restaurant Location"
+                title={restaurant.mapsTitle}
               />
             </div>
           </div>

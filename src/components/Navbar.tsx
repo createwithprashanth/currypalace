@@ -2,20 +2,25 @@
 
 import { useState, useEffect } from "react";
 import { Menu, X, Phone, Download } from "lucide-react";
+import { restaurant } from "@/config/restaurant";
+import { useLang } from "@/context/LanguageContext";
 
-const navLinks = [
-  { label: "Home",     href: "#home" },
-  { label: "About",    href: "#about" },
-  { label: "Menu",     href: "#menu" },
-  { label: "Gallery",  href: "#gallery" },
-  { label: "Location", href: "#location" },
-  { label: "Contact",  href: "#contact" },
-];
+const NAV_HREFS = ["#home", "#about", "#menu", "#gallery", "#location", "#contact"] as const;
 
 export default function Navbar() {
+  const { t, toggle } = useLang();
   const [scrolled, setScrolled] = useState(false);
   const [open,     setOpen]     = useState(false);
   const [active,   setActive]   = useState("#home");
+
+  const navLinks = [
+    { label: t.nav.home,     href: "#home"     },
+    { label: t.nav.about,    href: "#about"    },
+    { label: t.nav.menu,     href: "#menu"     },
+    { label: t.nav.gallery,  href: "#gallery"  },
+    { label: t.nav.location, href: "#location" },
+    { label: t.nav.contact,  href: "#contact"  },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -32,7 +37,7 @@ export default function Navbar() {
       },
       { rootMargin: "-40% 0px -40% 0px" }
     );
-    navLinks.forEach(({ href }) => {
+    NAV_HREFS.forEach((href) => {
       const el = document.querySelector(href);
       if (el) observer.observe(el);
     });
@@ -55,20 +60,22 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
 
-          {/* Logo — English + Arabic */}
+          {/* Logo */}
           <button onClick={() => scrollTo("#home")} className="flex flex-col leading-none text-left">
             <span
               className="text-lg sm:text-xl lg:text-2xl font-bold text-brand-gold leading-tight"
               style={{ fontFamily: "'Playfair Display', serif" }}
             >
-              Curry Palace
+              {restaurant.name}
             </span>
-            <span
-              className="text-[11px] sm:text-xs text-brand-cream/60 leading-tight"
-              style={{ fontFamily: "'Noto Naskh Arabic', serif", direction: "rtl" }}
-            >
-              مطعم كاري بالس
-            </span>
+            {restaurant.nameSecondary && (
+              <span
+                className="text-[11px] sm:text-xs text-brand-cream/60 leading-tight"
+                style={{ fontFamily: "'Noto Naskh Arabic', serif", direction: "rtl" }}
+              >
+                {restaurant.nameSecondary}
+              </span>
+            )}
           </button>
 
           {/* Desktop nav */}
@@ -90,31 +97,48 @@ export default function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden lg:flex items-center gap-2">
+            {/* Language toggle */}
+            <button
+              onClick={toggle}
+              className="px-3 py-1.5 text-xs font-semibold text-brand-gold border border-brand-gold/40 hover:bg-brand-gold/10 rounded-full transition-all duration-300 tracking-wider"
+              aria-label="Toggle language"
+            >
+              {t.nav.language}
+            </button>
             <a
-              href="/curry-palace-menu.pdf"
-              download="Curry_Palace_Menu.pdf"
+              href={restaurant.menuPdf}
+              download={restaurant.menuPdfFilename}
               className="flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-brand-gold border border-brand-gold/40 hover:bg-brand-gold/10 rounded-full transition-all duration-300"
             >
               <Download size={13} />
               Menu PDF
             </a>
             <a
-              href="tel:024484041"
+              href={`tel:${restaurant.phone}`}
               className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-brand-dark bg-brand-gold hover:bg-brand-gold-light rounded-full transition-all duration-300 shadow-gold"
             >
               <Phone size={14} />
-              02 448 4041
+              {restaurant.phoneDisplay}
             </a>
           </div>
 
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setOpen(!open)}
-            className="lg:hidden p-2 text-brand-gold"
-            aria-label="Toggle menu"
-          >
-            {open ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          {/* Mobile: language toggle + hamburger */}
+          <div className="lg:hidden flex items-center gap-2">
+            <button
+              onClick={toggle}
+              className="px-2.5 py-1 text-xs font-semibold text-brand-gold border border-brand-gold/40 hover:bg-brand-gold/10 rounded-full transition-all"
+              aria-label="Toggle language"
+            >
+              {t.nav.language}
+            </button>
+            <button
+              onClick={() => setOpen(!open)}
+              className="p-2 text-brand-gold"
+              aria-label="Toggle menu"
+            >
+              {open ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -140,26 +164,26 @@ export default function Navbar() {
           ))}
           <div className="pt-3 grid grid-cols-2 gap-3">
             <a
-              href="tel:024484041"
+              href={`tel:${restaurant.phone}`}
               className="flex items-center justify-center gap-2 py-3 text-sm font-semibold text-brand-dark bg-brand-gold rounded-xl"
             >
-              <Phone size={14} /> Call Now
+              <Phone size={14} /> {t.nav.callNow}
             </a>
             <a
-              href="https://wa.me/971551899500"
+              href={`https://wa.me/${restaurant.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 py-3 text-sm font-semibold text-white bg-[#25d366] rounded-xl"
             >
-              WhatsApp
+              {t.nav.whatsapp}
             </a>
           </div>
           <a
-            href="/curry-palace-menu.pdf"
-            download="Curry_Palace_Menu.pdf"
+            href={restaurant.menuPdf}
+            download={restaurant.menuPdfFilename}
             className="mt-2 flex items-center justify-center gap-2 py-3 text-sm font-semibold text-brand-gold border border-brand-gold/40 rounded-xl hover:bg-brand-gold/10 transition-colors"
           >
-            <Download size={14} /> Download Menu PDF
+            <Download size={14} /> {t.nav.downloadPdf}
           </a>
         </div>
       </div>

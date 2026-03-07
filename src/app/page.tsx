@@ -7,6 +7,7 @@ import Location      from "@/components/Location";
 import Contact       from "@/components/Contact";
 import Footer        from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import OrderCart      from "@/components/OrderCart";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <Contact />
       <Footer />
       <WhatsAppButton />
+      <OrderCart />
     </main>
   );
 }

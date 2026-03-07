@@ -2,22 +2,13 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
-import { ChevronDown, Star, Clock, Truck, MapPin } from "lucide-react";
+import { ChevronDown, Star, Clock, Truck, MapPin, type LucideIcon } from "lucide-react";
+import { restaurant } from "@/config/restaurant";
 
-const heroSlides = [
-  { img: "/images/hero/hero1_biryani.jpg",         label: "Aromatic Kerala Biriyani" },
-  { img: "/images/hero/hero3_curry.jpg",            label: "Kerala Chicken Curry" },
-  { img: "/images/hero/hero2_butter_chicken.jpg",   label: "Butter Chicken Special" },
-  { img: "/images/hero/hero4_grilled_chicken.jpg",  label: "Charcoal Grilled Chicken" },
-  { img: "/images/hero/hero5_dosa.jpg",             label: "South Indian Breakfast" },
-];
+const iconMap: Record<string, LucideIcon> = { Star, Clock, Truck, MapPin };
 
-const badges = [
-  { icon: Star,  label: "3.5★ Google",   sub: "127 Reviews" },
-  { icon: Clock, label: "Open 24 Hours",  sub: "Every Day" },
-  { icon: Truck, label: "Free Delivery",  sub: "Home Delivery" },
-  { icon: MapPin,label: "Al Zahiyah",     sub: "Abu Dhabi, UAE" },
-];
+const heroSlides = restaurant.heroSlides;
+const badges = restaurant.heroBadges.map((b) => ({ ...b, icon: iconMap[b.icon] ?? Star }));
 
 export default function Hero() {
   const [current, setCurrent] = useState(0);
@@ -25,8 +16,10 @@ export default function Hero() {
 
   const next = useCallback(() => setCurrent((c) => (c + 1) % heroSlides.length), []);
 
+  // Trigger entry animation after mount
+  useEffect(() => { setVisible(true); }, []); // eslint-disable-line react-hooks/set-state-in-effect
+
   useEffect(() => {
-    setVisible(true);
     const id = setInterval(next, 5000);
     return () => clearInterval(id);
   }, [next]);
@@ -63,43 +56,47 @@ export default function Hero() {
         {/* Location pill */}
         <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-gold/40 bg-brand-gold/10 text-brand-gold text-[10px] sm:text-xs font-medium tracking-widest uppercase mb-5">
           <span className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />
-          <span className="hidden sm:inline">Al Zahiyah · Tourist Club Area · Abu Dhabi, UAE</span>
-          <span className="sm:hidden">Al Zahiyah · Abu Dhabi</span>
+          <span className="hidden sm:inline">{restaurant.locationPillFull}</span>
+          <span className="sm:hidden">{restaurant.locationPillShort}</span>
         </div>
 
-        {/* English name */}
+        {/* Restaurant name */}
         <h1
           className="text-5xl sm:text-6xl lg:text-8xl font-bold leading-tight mb-2"
           style={{ fontFamily: "'Playfair Display', serif" }}
         >
-          <span className="text-brand-cream">Curry </span>
-          <span className="gold-shimmer">Palace</span>
+          {restaurant.name.split(" ").map((word, i, arr) => (
+            <span key={i} className={i === arr.length - 1 ? "gold-shimmer" : "text-brand-cream"}>
+              {word}{i < arr.length - 1 ? " " : ""}
+            </span>
+          ))}
         </h1>
 
-        {/* Arabic name */}
-        <p
-          className="text-2xl sm:text-3xl lg:text-4xl text-brand-gold/80 mb-3"
-          style={{ fontFamily: "'Noto Naskh Arabic', 'Arabic Typesetting', serif", direction: "rtl" }}
-        >
-          مطعم كاري بالس
-        </p>
+        {/* Secondary name */}
+        {restaurant.nameSecondary && (
+          <p
+            className="text-2xl sm:text-3xl lg:text-4xl text-brand-gold/80 mb-3"
+            style={{ fontFamily: "'Noto Naskh Arabic', 'Arabic Typesetting', serif", direction: "rtl" }}
+          >
+            {restaurant.nameSecondary}
+          </p>
+        )}
 
-        {/* Script tagline */}
+        {/* Tagline */}
         <p
           className="text-lg sm:text-xl lg:text-2xl text-brand-cream/80 mb-2"
           style={{ fontFamily: "'Dancing Script', cursive" }}
         >
-          The Palace of Iconic Taste
+          {restaurant.tagline}
         </p>
 
-        {/* Kerala identity */}
+        {/* Cuisine label */}
         <p className="text-brand-gold/60 text-[10px] sm:text-xs tracking-[0.2em] uppercase mb-5">
-          ✦ Authentic Kerala Cuisine · Abu Dhabi ✦
+          ✦ {restaurant.cuisineLabel} ✦
         </p>
 
         <p className="text-brand-cream/60 text-sm sm:text-base max-w-2xl mx-auto mb-8 leading-relaxed px-2">
-          Bringing the rich culinary heritage of Kerala — God&apos;s Own Country — to the heart of Abu Dhabi.
-          Biriyani, Kizhi Porotta, Charcoal Chicken, Shawarma, Fresh Juices &amp; more, served 24 hours.
+          {restaurant.heroDescription}
         </p>
 
         {/* CTAs */}
@@ -111,7 +108,7 @@ export default function Hero() {
             Explore Our Menu
           </button>
           <a
-            href="https://wa.me/971551899500?text=Hello%20Curry%20Palace!%20I%20would%20like%20to%20place%20an%20order."
+            href={`https://wa.me/${restaurant.whatsapp}?text=${restaurant.whatsappOrderMsg}`}
             target="_blank"
             rel="noopener noreferrer"
             className="w-full sm:w-auto px-8 py-4 bg-[#25d366] hover:bg-[#22c55e] text-white font-semibold rounded-full transition-all duration-300 hover:scale-105 text-sm tracking-wide flex items-center justify-center gap-2"

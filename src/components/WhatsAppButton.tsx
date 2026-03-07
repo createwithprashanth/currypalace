@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { restaurant } from "@/config/restaurant";
 
 export default function WhatsAppButton() {
   const [visible, setVisible] = useState(false);
@@ -31,14 +32,14 @@ export default function WhatsAppButton() {
         }`}
       >
         <div className="bg-white text-gray-800 text-sm font-medium px-4 py-2.5 rounded-2xl shadow-xl max-w-[200px] leading-tight relative">
-          Order on WhatsApp — Fast & Free Delivery! 🍛
+          {restaurant.floatingWhatsappTooltip}
           <div className="absolute right-4 -bottom-2 w-3 h-3 bg-white rotate-45" />
         </div>
       </div>
 
       {/* Main button */}
       <a
-        href="https://wa.me/971551899500?text=Hello%20Curry%20Palace!%20I%20would%20like%20to%20place%20an%20order."
+        href={`https://wa.me/${restaurant.whatsapp}?text=${restaurant.whatsappOrderMsg}`}
         target="_blank"
         rel="noopener noreferrer"
         onMouseEnter={() => setTooltip(true)}

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Phone, MessageCircle, Instagram, Star, Send } from "lucide-react";
+import { restaurant } from "@/config/restaurant";
 
 export default function Contact() {
   const ref = useRef<HTMLDivElement>(null);
@@ -16,9 +17,9 @@ export default function Contact() {
 
   const sendWhatsApp = () => {
     const text = encodeURIComponent(
-      `Hello Curry Palace!\n\nName: ${form.name}\nPhone: ${form.phone}\n\nMessage: ${form.message}`
+      `Hello ${restaurant.name}!\n\nName: ${form.name}\nPhone: ${form.phone}\n\nMessage: ${form.message}`
     );
-    window.open(`https://wa.me/971551899500?text=${text}`, "_blank");
+    window.open(`https://wa.me/${restaurant.whatsapp}?text=${text}`, "_blank");
   };
 
   return (
@@ -48,18 +49,18 @@ export default function Contact() {
           <div className={`space-y-5 transition-all duration-700 delay-100 ${vis ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"}`}>
             <h3 className="text-brand-gold font-semibold text-sm tracking-wide uppercase">Quick Contact</h3>
 
-            <a href="tel:024484041" className="glass-card flex items-center gap-4 p-5 rounded-2xl hover:border-brand-gold/40 transition-all group">
+            <a href={`tel:${restaurant.phone}`} className="glass-card flex items-center gap-4 p-5 rounded-2xl hover:border-brand-gold/40 transition-all group">
               <div className="w-12 h-12 rounded-full bg-brand-gold/15 flex items-center justify-center group-hover:bg-brand-gold/30 transition-colors">
                 <Phone size={20} className="text-brand-gold" />
               </div>
               <div>
                 <p className="text-brand-cream/50 text-xs mb-1">Call Us</p>
-                <p className="text-brand-cream font-semibold">02 448 4041</p>
+                <p className="text-brand-cream font-semibold">{restaurant.phoneDisplay}</p>
               </div>
             </a>
 
             <a
-              href="https://wa.me/971551899500"
+              href={`https://wa.me/${restaurant.whatsapp}`}
               target="_blank"
               rel="noopener noreferrer"
               className="glass-card flex items-center gap-4 p-5 rounded-2xl hover:border-[#25d366]/60 transition-all group"
@@ -69,12 +70,12 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-brand-cream/50 text-xs mb-1">WhatsApp</p>
-                <p className="text-brand-cream font-semibold">055 189 9500</p>
+                <p className="text-brand-cream font-semibold">{restaurant.whatsappDisplay}</p>
               </div>
             </a>
 
             <a
-              href="https://instagram.com/curry_palace"
+              href={`https://instagram.com/${restaurant.instagram}`}
               target="_blank"
               rel="noopener noreferrer"
               className="glass-card flex items-center gap-4 p-5 rounded-2xl hover:border-pink-500/40 transition-all group"
@@ -84,21 +85,21 @@ export default function Contact() {
               </div>
               <div>
                 <p className="text-brand-cream/50 text-xs mb-1">Instagram</p>
-                <p className="text-brand-cream font-semibold">@curry_palace</p>
+                <p className="text-brand-cream font-semibold">@{restaurant.instagram}</p>
               </div>
             </a>
 
             {/* Reviews */}
             <div className="glass-card p-5 rounded-2xl">
               <div className="flex items-center gap-2 mb-2">
-                {Array.from({ length: 4 }).map((_, i) => (
+                {Array.from({ length: Math.floor(restaurant.rating) }).map((_, i) => (
                   <Star key={i} size={16} className="text-brand-gold fill-brand-gold" />
                 ))}
-                <Star size={16} className="text-brand-gold/40" />
-                <span className="text-brand-cream font-bold ml-1">3.5</span>
+                {restaurant.rating % 1 !== 0 && <Star size={16} className="text-brand-gold/40" />}
+                <span className="text-brand-cream font-bold ml-1">{restaurant.rating}</span>
               </div>
-              <p className="text-brand-cream/55 text-xs">127 Google Reviews · VAT Included</p>
-              <p className="text-brand-cream/40 text-xs mt-1">Tourist Club Area, Abu Dhabi</p>
+              <p className="text-brand-cream/55 text-xs">{restaurant.reviewCount} Google Reviews · VAT Included</p>
+              <p className="text-brand-cream/40 text-xs mt-1">{restaurant.reviewLocation}</p>
             </div>
           </div>
 

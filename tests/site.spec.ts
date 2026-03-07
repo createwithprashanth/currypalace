@@ -30,7 +30,7 @@ test.describe("Desktop (1280×800)", () => {
   test("hero section renders with Arabic name", async ({ page }) => {
     await page.goto(BASE);
     await expect(page.getByText("مطعم كاري بالس").first()).toBeVisible();
-    await expect(page.getByText("The Palace of Iconic Taste")).toBeVisible();
+    await expect(page.getByText("The Palace of Iconic Taste").first()).toBeVisible();
     await expect(page.getByText("Explore Our Menu")).toBeVisible();
     await expect(page.getByText("Order on WhatsApp").first()).toBeVisible();
   });
@@ -39,7 +39,7 @@ test.describe("Desktop (1280×800)", () => {
     await page.goto(BASE);
     await page.waitForTimeout(1500);
     const brokenImages = await page.evaluate(() => {
-      return Array.from(document.images)
+      return Array.from(document.querySelectorAll<HTMLImageElement>("#home img"))
         .filter((img) => !img.complete || img.naturalWidth === 0)
         .map((img) => img.src);
     });
@@ -50,8 +50,8 @@ test.describe("Desktop (1280×800)", () => {
     await page.goto(BASE);
     await page.getByRole("button", { name: "About" }).first().click();
     await page.waitForTimeout(800);
-    await expect(page.getByText("The Heart of")).toBeVisible();
-    await expect(page.getByText("Malabar Coast to Abu Dhabi")).toBeVisible();
+    await expect(page.getByRole("heading", { name: /The Heart of Kerala Cuisine/i })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Malabar Coast to Abu Dhabi" })).toBeVisible();
     await expect(page.getByText("Thalassery Dum Biriyani")).toBeVisible();
   });
 
@@ -171,7 +171,7 @@ test.describe("Mobile – iPhone 13 (390×844)", () => {
     await page.goto(BASE);
     await page.getByRole("button", { name: "Toggle menu" }).click();
     await page.waitForTimeout(400);
-    await expect(page.getByText("Download Menu PDF")).toBeVisible();
+    await expect(page.getByText("Download Menu PDF").first()).toBeVisible();
   });
 
   test("mobile hero CTAs are full-width and tappable", async ({ page }) => {

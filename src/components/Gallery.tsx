@@ -3,11 +3,9 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
+import { restaurant } from "@/config/restaurant";
 
-const images = Array.from({ length: 28 }, (_, i) => ({
-  src: `/images/curry_palace${String(i + 1).padStart(5, "0")}.jpg`,
-  alt: `Curry Palace ${i + 1}`,
-}));
+const images = restaurant.gallery;
 
 // Tile heights create a varied masonry feel within a CSS grid
 const heights = [
@@ -60,7 +58,7 @@ export default function Gallery() {
             Photo Gallery
           </h2>
           <p className="mt-4 text-brand-cream/55 max-w-xl mx-auto text-sm px-2">
-            A glimpse into our world of flavour, warmth, and Kerala hospitality.
+            {restaurant.gallerySubheading}
           </p>
         </div>
 
@@ -83,7 +81,7 @@ export default function Gallery() {
                 className="object-cover group-hover:scale-110 transition-transform duration-700"
                 sizes="(max-width:640px) 50vw, (max-width:1024px) 33vw, 25vw"
               />
-              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/35 transition-all duration-300 flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/35 transition-all duration-300 flex items-center justify-center pointer-events-none">
                 <ZoomIn size={20} className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </div>
             </div>
