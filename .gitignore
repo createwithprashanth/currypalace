@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local dev folders (not needed for deployment)
+/test-results/
+/menupdf/
+/images/
+/.claude/

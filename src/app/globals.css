@@ -1,26 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,700&family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500;600&display=swap');
+
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #110602; }
+::-webkit-scrollbar-thumb { background: #D4920A; border-radius: 3px; }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ── Hide scrollbar utility (horizontal scroll menus) ── */
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* ── Base ── */
+html { scroll-behavior: smooth; }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #110602;
+  color: #FDF3E3;
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ── Section divider ── */
+.gold-divider {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #D4920A, #F0B535, #D4920A, transparent);
+}
+
+/* ── Gold shimmer text ── */
+.gold-shimmer {
+  background: linear-gradient(90deg, #D4920A 0%, #F0B535 40%, #fff8e7 50%, #F0B535 60%, #D4920A 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}
+
+/* ── Glass card ── */
+.glass-card {
+  background: rgba(61, 21, 7, 0.45);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(212, 146, 10, 0.2);
+  border-radius: 1rem;
+}
+
+/* ── Menu item hover glow ── */
+.menu-item-card:hover {
+  border-color: rgba(212, 146, 10, 0.6);
+  box-shadow: 0 0 16px rgba(212, 146, 10, 0.15);
+}
+
+/* ── Section heading underline ── */
+.section-title::after {
+  content: '';
+  display: block;
+  width: 70px;
+  height: 3px;
+  margin: 10px auto 0;
+  background: linear-gradient(90deg, #D4920A, #F0B535);
+  border-radius: 2px;
+}
+
+/* ── Image overlay gradient ── */
+.img-overlay { position: relative; }
+.img-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(17,6,2,0.7) 0%, transparent 55%);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* ── Pulse ring for WhatsApp button ── */
+@keyframes pulse-ring {
+  0%   { transform: scale(0.85); opacity: 0.8; }
+  80%  { transform: scale(1.65); opacity: 0; }
+  100% { transform: scale(1.65); opacity: 0; }
+}
+.pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #25d366;
+  animation: pulse-ring 2s ease-out infinite;
+  z-index: 0;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
 }
