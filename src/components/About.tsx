@@ -4,10 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Award, Utensils, Users, Clock } from "lucide-react";
 import { restaurant } from "@/config/restaurant";
+import { useLang } from "@/context/LanguageContext";
 
 const statIcons = [Utensils, Clock, Users, Award];
 
 export default function About() {
+  const { t } = useLang();
   const ref = useRef<HTMLDivElement>(null);
   const [vis, setVis] = useState(false);
 
@@ -29,7 +31,7 @@ export default function About() {
 
         {/* Heading */}
         <div className={`text-center mb-12 sm:mb-16 transition-all duration-700 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <p className="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase mb-3">Our Story</p>
+          <p className="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase mb-3">{t.about.ourStory}</p>
           <h2
             className="text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-cream section-title"
             style={{ fontFamily: "'Playfair Display', serif" }}
@@ -74,7 +76,7 @@ export default function About() {
               </div>
             </div>
             <div className="absolute -bottom-4 -right-4 glass-card rounded-2xl px-4 py-3 shadow-gold border border-brand-gold/40">
-              <p className="text-brand-gold font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Open</p>
+              <p className="text-brand-gold font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>{t.about.openBadge}</p>
               <p className="text-brand-cream/80 text-xs">{restaurant.hoursShort}</p>
             </div>
           </div>
@@ -102,8 +104,8 @@ export default function About() {
               ))}
             </div>
             <div className="pt-2 flex flex-col sm:flex-row gap-3">
-              <a href={`tel:${restaurant.phone}`} className="flex-1 text-center py-3 px-4 bg-brand-gold hover:bg-brand-gold-light text-brand-dark font-semibold rounded-full text-sm transition-all hover:scale-105">Call Now</a>
-              <a href={`https://wa.me/${restaurant.whatsapp}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3 px-4 bg-[#25d366] hover:bg-[#22c55e] text-white font-semibold rounded-full text-sm transition-all hover:scale-105">WhatsApp Order</a>
+              <a href={`tel:${restaurant.phone}`} className="flex-1 text-center py-3 px-4 bg-brand-gold hover:bg-brand-gold-light text-brand-dark font-semibold rounded-full text-sm transition-all hover:scale-105">{t.about.callNow}</a>
+              <a href={`https://wa.me/${restaurant.whatsapp}`} target="_blank" rel="noopener noreferrer" className="flex-1 text-center py-3 px-4 bg-[#25d366] hover:bg-[#22c55e] text-white font-semibold rounded-full text-sm transition-all hover:scale-105">{t.about.whatsappOrder}</a>
             </div>
           </div>
         </div>

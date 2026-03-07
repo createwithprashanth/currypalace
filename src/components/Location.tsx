@@ -3,28 +3,30 @@
 import { useEffect, useRef, useState } from "react";
 import { MapPin, Phone, Clock, Navigation, MessageCircle } from "lucide-react";
 import { restaurant } from "@/config/restaurant";
-
-const info = [
-  {
-    icon: MapPin,
-    title: "Address",
-    lines: [restaurant.address.line1, restaurant.address.line2, restaurant.address.city],
-  },
-  {
-    icon: Phone,
-    title: "Phone",
-    lines: [restaurant.phoneDisplay, `${restaurant.whatsappDisplay} (WhatsApp)`],
-  },
-  {
-    icon: Clock,
-    title: "Hours",
-    lines: restaurant.hoursLines,
-  },
-];
+import { useLang } from "@/context/LanguageContext";
 
 export default function Location() {
+  const { t } = useLang();
   const ref        = useRef<HTMLDivElement>(null);
   const [vis, setVis] = useState(false);
+
+  const info = [
+    {
+      icon:  MapPin,
+      title: t.location.address,
+      lines: [restaurant.address.line1, restaurant.address.line2, restaurant.address.city],
+    },
+    {
+      icon:  Phone,
+      title: t.location.phone,
+      lines: [restaurant.phoneDisplay, `${restaurant.whatsappDisplay} (${t.location.whatsapp})`],
+    },
+    {
+      icon:  Clock,
+      title: t.location.hours,
+      lines: restaurant.hoursLines,
+    },
+  ];
 
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVis(true); }, { threshold: 0.1 });
@@ -40,12 +42,12 @@ export default function Location() {
 
         {/* Heading */}
         <div className={`text-center mb-14 transition-all duration-700 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <p className="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase mb-3">Find Us</p>
+          <p className="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase mb-3">{t.location.sectionLabel}</p>
           <h2
             className="text-4xl lg:text-5xl font-bold text-brand-cream section-title"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            Our Location
+            {t.location.heading}
           </h2>
           <p className="mt-5 text-brand-cream/55 max-w-xl mx-auto text-sm">
             {restaurant.locationSubtext}
@@ -78,7 +80,7 @@ export default function Location() {
                 rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 py-3 bg-brand-gold hover:bg-brand-gold-light text-brand-dark font-semibold rounded-full text-sm transition-all hover:scale-105"
               >
-                <Navigation size={14} /> Get Directions
+                <Navigation size={14} /> {t.location.getDirections}
               </a>
               <a
                 href={`https://wa.me/${restaurant.whatsapp}?text=${restaurant.whatsappLocationMsg}`}
@@ -86,7 +88,7 @@ export default function Location() {
                 rel="noopener noreferrer"
                 className="flex-1 flex items-center justify-center gap-2 py-3 bg-[#25d366] hover:bg-[#22c55e] text-white font-semibold rounded-full text-sm transition-all hover:scale-105"
               >
-                <MessageCircle size={14} /> WhatsApp
+                <MessageCircle size={14} /> {t.location.whatsapp}
               </a>
             </div>
           </div>

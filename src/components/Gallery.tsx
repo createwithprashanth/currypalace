@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import { X, ChevronLeft, ChevronRight, ZoomIn } from "lucide-react";
 import { restaurant } from "@/config/restaurant";
+import { useLang } from "@/context/LanguageContext";
 
 const images = restaurant.gallery;
 
@@ -16,6 +17,7 @@ const heights = [
 ];
 
 export default function Gallery() {
+  const { t } = useLang();
   const ref = useRef<HTMLDivElement>(null);
   const [vis, setVis]     = useState(false);
   const [light, setLight] = useState<number | null>(null);
@@ -50,12 +52,12 @@ export default function Gallery() {
 
         {/* Heading */}
         <div className={`text-center mb-10 sm:mb-14 transition-all duration-700 ${vis ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <p className="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase mb-3">Visual Feast</p>
+          <p className="text-brand-gold text-xs font-semibold tracking-[0.3em] uppercase mb-3">{t.gallery.visualFeast}</p>
           <h2
             className="text-3xl sm:text-4xl lg:text-5xl font-bold text-brand-cream section-title"
             style={{ fontFamily: "'Playfair Display', serif" }}
           >
-            Photo Gallery
+            {t.gallery.heading}
           </h2>
           <p className="mt-4 text-brand-cream/55 max-w-xl mx-auto text-sm px-2">
             {restaurant.gallerySubheading}
