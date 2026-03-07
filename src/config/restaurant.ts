@@ -180,7 +180,7 @@ export const translations = {
       downloadPdf: "Download Menu PDF",
       callNow:     "Call Now",
       whatsapp:    "WhatsApp",
-      language:    "AR",
+      language:    "عربي",
     },
     hero: {
       exploreMenu:    "Explore Our Menu",
@@ -274,7 +274,7 @@ export const translations = {
       downloadPdf: "تحميل قائمة الطعام",
       callNow:     "اتصل الآن",
       whatsapp:    "واتساب",
-      language:    "EN",
+      language:    "English",
     },
     hero: {
       exploreMenu:   "استكشف قائمتنا",
