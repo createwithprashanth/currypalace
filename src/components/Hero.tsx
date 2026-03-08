@@ -55,13 +55,6 @@ export default function Hero() {
           visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         }`}
       >
-        {/* Location pill */}
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-brand-gold/40 bg-brand-gold/10 text-brand-gold text-[10px] sm:text-xs font-medium tracking-widest uppercase mb-5">
-          <span className="w-1.5 h-1.5 rounded-full bg-brand-gold animate-pulse" />
-          <span className="hidden sm:inline">{restaurant.locationPillFull}</span>
-          <span className="sm:hidden">{restaurant.locationPillShort}</span>
-        </div>
-
         {/* Restaurant name */}
         <h1
           className="text-5xl sm:text-6xl lg:text-8xl font-bold leading-tight mb-2"
